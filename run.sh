@@ -7,4 +7,7 @@ fi
 if [ $1 = "NHL" ]; then
   python3 NhlConverter.py $2 $3
 fi
+if [ $1 = "NBA" ]; then
+  python3 NbaConverter.py $2 $3
+fi
 python3 main.py $1 $2 $3

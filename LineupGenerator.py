@@ -27,6 +27,8 @@ class LineupGenerator:
 			self.goalies_opponents = []
 			self.num_lines = None
 			self.team_lines = []
+		elif sport == 'NBA':
+			self.positions = {'PG':[], 'SG':[], 'SF':[], 'PF':[], 'C':[]}
 		self.output_file = output_file
 		self.num_teams = None
 		self.actuals = True if 'Actual FP' in self.players else False

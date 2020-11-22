@@ -3,5 +3,6 @@ nfl/inputs/players.csv
 nfl/inputs/defense.csv
 nhl/inputs/players.csv
 nhl/inputs/goalies.csv
+nba/inputs/players.csv
 __pycache__/
 .DS_Store
