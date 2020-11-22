@@ -1,0 +1,5 @@
+outputs/
+nfl/inputs/players.csv
+nfl/inputs/defense.csv
+__pycache__/
+.DS_Store

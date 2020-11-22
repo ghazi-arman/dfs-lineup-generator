@@ -1,5 +1,5 @@
 import pulp
-from nfl.optimizer import Optimizer
+from LineupGenerator import LineupGenerator
 
 class Nfl(LineupGenerator):
 	def __init__(self, sport, num_lineups, overlap, player_limit, solver, players_file, defenses_file, output_file):
@@ -27,8 +27,8 @@ class Nfl(LineupGenerator):
 			+ pulp.lpSum(self.positions['TE'][i]*players_lineup[i] for i in range(self.num_players)) == 7)
 
 		# sets max salary
-		prob += ((pulp.lpSum(self.players_df.loc[i, 'Salary']*players_lineup[i] for i in range(self.num_players)) +
-			pulp.lpSum(self.defenses_df.loc[i, 'Salary']*defenses_lineup[i] for i in range(self.num_defenses))) <= self.salary_cap)
+		prob += ((pulp.lpSum(self.players.loc[i, 'Salary']*players_lineup[i] for i in range(self.num_players)) +
+			pulp.lpSum(self.defenses.loc[i, 'Salary']*defenses_lineup[i] for i in range(self.num_defenses))) <= self.salary_cap)
 		
     # used_team variable used to keep track of which teams used for each lineup
 		used_team = [pulp.LpVariable("u{}".format(i+1), cat="Binary") for i in range(self.num_teams)]
@@ -39,7 +39,7 @@ class Nfl(LineupGenerator):
 				<= pulp.lpSum(self.players_teams[k][i]*self.positions['WR'][k]*players_lineup[k] for k in range(self.num_players)))
 			prob += (pulp.lpSum(self.players_teams[k][i]*players_lineup[k] for k in range(self.num_players)) <= 4*used_team[i])
 		# ensures that the lineup contains at least 6 unique teams
-    prob += (pulp.lpSum(used_team[i] for i in range(self.num_teams)) >= 6)
+		prob += (pulp.lpSum(used_team[i] for i in range(self.num_teams)) >= 6)
 
 		# each new lineup can't have more than the overlap variable number of combinations of players in any previous lineups
 		for i in range(len(lineups)):
@@ -53,8 +53,8 @@ class Nfl(LineupGenerator):
 			prob += ((pulp.lpSum(lineups[k][self.num_players+i]*defenses_lineup[i] for k in range(len(lineups)))) <= self.player_limit)
 
 		# create lineups with the highest projected fantasy points
-		prob += pulp.lpSum((pulp.lpSum(self.players_df.loc[i, 'Proj FP']*players_lineup[i] for i in range(self.num_players)) +
-			pulp.lpSum(self.defenses_df.loc[i, 'Proj FP']*defenses_lineup[i] for i in range(self.num_defenses))))
+		prob += pulp.lpSum((pulp.lpSum(self.players.loc[i, 'Proj FP']*players_lineup[i] for i in range(self.num_players)) +
+			pulp.lpSum(self.defenses.loc[i, 'Proj FP']*defenses_lineup[i] for i in range(self.num_defenses))))
 
 		status = prob.solve(self.solver)
 
@@ -88,40 +88,40 @@ class Nfl(LineupGenerator):
 				if player > 0.9 and player < 1.1:
 					if self.positions['QB'][num] == 1:
 						if a_lineup[0] == "":
-							a_lineup[0] = self.players_df.loc[num, 'Player Name'] + self.players_df.loc[num, 'Team']
+							a_lineup[0] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 					elif self.positions['WR'][num] == 1:
 						if a_lineup[1] == "":
-							a_lineup[1] = self.players_df.loc[num, 'Player Name'] + self.players_df.loc[num, 'Team']
+							a_lineup[1] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 						elif a_lineup[2] == "":
-							a_lineup[2] = self.players_df.loc[num, 'Player Name'] + self.players_df.loc[num, 'Team']
+							a_lineup[2] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 						elif a_lineup[3] == "":
-							a_lineup[3] = self.players_df.loc[num, 'Player Name'] + self.players_df.loc[num, 'Team']
+							a_lineup[3] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 						elif a_lineup[7] == "":
-							a_lineup[7] = self.players_df.loc[num, 'Player Name'] + self.players_df.loc[num, 'Team']
+							a_lineup[7] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 					elif self.positions['RB'][num] == 1:
 						if a_lineup[4] == "":
-							a_lineup[4] = self.players_df.loc[num, 'Player Name'] + self.players_df.loc[num, 'Team']
+							a_lineup[4] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 						elif a_lineup[5] == "":
-							a_lineup[5] = self.players_df.loc[num, 'Player Name'] + self.players_df.loc[num, 'Team']
+							a_lineup[5] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 						elif a_lineup[5] == "":
-							a_lineup[5] = self.players_df.loc[num, 'Player Name'] + self.players_df.loc[num, 'Team']
+							a_lineup[5] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 						elif a_lineup[7] == "":
-							a_lineup[7] = self.players_df.loc[num, 'Player Name'] + self.players_df.loc[num, 'Team']
+							a_lineup[7] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 					elif self.positions['TE'][num] == 1:
 						if a_lineup[6] == "":
-							a_lineup[6] = self.players_df.loc[num, 'Player Name'] + self.players_df.loc[num, 'Team']
+							a_lineup[6] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 						elif a_lineup[7] == "":
-							a_lineup[7] = self.players_df.loc[num, 'Player Name'] + self.players_df.loc[num, 'Team']
-					total_proj += self.players_df.loc[num, 'Proj FP']
+							a_lineup[7] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+					total_proj += self.players.loc[num, 'Proj FP']
 					if self.actuals:
-						total_actual += self.players_df.loc[num, 'Actual FP']
+						total_actual += self.players.loc[num, 'Actual FP']
 			for num, defense in enumerate(defenses_lineup):
 				if defense > 0.9 and defense < 1.1:
 					if a_lineup[8] == "":
-						a_lineup[8] = self.defenses_df.loc[num, 'Player Name']
-					total_proj += self.defenses_df.loc[num, 'Proj FP']
+						a_lineup[8] = self.defenses.loc[num, 'Player Name']
+					total_proj += self.defenses.loc[num, 'Proj FP']
 					if self.actuals:
-						total_actual += self.defenses_df.loc[num, 'Actual FP']
+						total_actual += self.defenses.loc[num, 'Actual FP']
 			a_lineup.append(round(total_proj, 2))
 			if self.actuals:
 				a_lineup.append(round(total_actual, 2))

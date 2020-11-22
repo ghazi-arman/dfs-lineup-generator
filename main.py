@@ -1,25 +1,26 @@
 import pulp
 import sys
-from nfl.fanduel import Fanduel as NFLFanduel
+from Nfl import Nfl
 
 while True:
 	print()
 	# enter the parameters
-	optimizer = Nfl(
-              sport="NFL"
-              num_lineups=150,
-							overlap=4,
-							variance=30,
-							solver=pulp.GLPK_CMD(msg=0),
-							players_filepath = 'nfl/inputs/players.csv',
-							defense_filepath = 'nfl/inputs/defense.csv',
-							output_filepath = 'nfl/outputs/fanduel_output_{}.csv'.format(sys.argv[1]))
+	generator = Nfl(
+		sport="NFL",
+		num_lineups=5,
+		overlap=4,
+		player_limit=10,
+		solver=pulp.GLPK_CMD(msg=0),
+		players_file = 'nfl/inputs/players.csv',
+		defenses_file = 'nfl/inputs/defense.csv',
+		output_file = 'nfl/outputs/{}/fanduel_output_{}.csv'.format(sys.argv[1], sys.argv[2])
+	)
 	# create the indicators used to set the constraints to be used by the formula
-	optimizer.create_indicators()
+	generator.create_indicators()
 	# generate the lineups with the formula and the indicators
-	lineups = optimizer.generate_lineups(formula=optimizer.type_1)
+	lineups = generator.generate_lineups(formula=generator.generate)
 	# fill the lineups with player names - send in the positions indicator
-	filled_lineups = optimizer.fill_lineups(lineups)
+	filled_lineups = generator.fill_lineups(lineups)
 	# save the lineups
-	optimizer.save_file(optimizer.header, filled_lineups, show_proj=True)
+	generator.save_file(generator.header, filled_lineups, show_proj=True)
 	break
