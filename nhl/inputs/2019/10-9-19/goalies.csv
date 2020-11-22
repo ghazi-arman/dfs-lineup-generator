@@ -1,0 +1,7 @@
+Player Name,Likes,Inj,Pos,Salary,Team,Opp,Rest,Vegas Odds Win,Vegas Odds GA,L5 TOI,L40 TOI,S TOI,L40 SVPCT,S SVPCT,L5 FP,L40 FP,S FP,Floor FP,Ceil FP,Proj FP,Proj Val,Actual FP,Actual Val
+Jacob Markstrom,,,G,8500,VAN,LA,3,60%,2.50,58.4,58.4,58.4,0.902,0.902,8.4,8.4,8.4,1.0,15.8,20.8,2.4,0.0,0.0
+Carter Hart,,,G,8300,PHI,NJ,4,54%,3.13,60.0,60.0,60.0,0.903,0.903,22.4,22.4,22.4,22.4,22.4,17.1,2.1,40.0,4.8
+Carter Hutton,1,,G,7800,BUF,MON,1,52%,2.94,60.0,60.0,60.0,0.939,0.939,24.4,24.4,24.4,15.9,32.9,18.9,2.4,14.4,1.8
+Keith Kinkaid,,,G,7600,MON,@BUF,3,48%,3.06,0.0,0.0,0.0,0.000,0.000,0.0,0.0,0.0,0.0,0.0,16.5,2.2,0.0,0.0
+Jon Quick,,,G,7400,LA,@VAN,0,40%,3.00,58.1,58.1,58.1,0.806,0.806,-4.0,-4.0,-4.0,-4.0,-4.0,15.5,2.1,-18.4,-2.5
+Cory Schneider,,,G,7200,NJ,@PHI,3,46%,3.37,42.7,42.7,42.7,0.905,0.905,NaN,NaN,NaN,NaN,NaN,15.4,2.1,8.0,1.1

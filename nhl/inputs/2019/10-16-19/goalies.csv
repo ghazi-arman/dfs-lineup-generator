@@ -1,0 +1,13 @@
+Player Name,Likes,Inj,Pos,Salary,Team,Opp,Rest,Vegas Odds Win,Vegas Odds GA,L5 TOI,L40 TOI,S TOI,L40 SVPCT,S SVPCT,L5 FP,L40 FP,S FP,Floor FP,Ceil FP,Proj FP,Proj Val,Actual FP,Actual Val
+Matthew Murray,1,,G,8600,PIT,COL,2,61%,,59.5,59.5,59.5,0.911,0.911,NaN,NaN,NaN,NaN,NaN,17.4,2.0,24.8,2.9
+John Gibson,3,,G,8500,ANH,BUF,1,52%,,59.2,59.2,59.2,0.941,0.941,NaN,NaN,NaN,NaN,NaN,20.3,2.4,28.8,3.4
+Ben Bishop,,,G,8500,DAL,@CLS,1,42%,,60.4,60.4,60.4,0.895,0.895,NaN,NaN,NaN,NaN,NaN,18.4,2.2,13.6,1.6
+Carter Hutton,1,,G,8400,BUF,@ANH,1,,,60.3,60.3,60.3,0.931,0.931,25.8,25.8,25.8,14.1,37.5,18.5,2.2,0.0,0.0
+Carter Hart,,,G,8300,PHI,@EDM,0,,,61.7,61.7,61.7,0.938,0.938,NaN,NaN,NaN,NaN,NaN,16.2,2.0,-8.0,-1.0
+Philipp Grubauer,1,,G,8200,COL,@PIT,1,,,59.8,59.8,59.8,0.925,0.925,NaN,NaN,NaN,NaN,NaN,17.0,2.1,0.0,0.0
+Ilya Samsonov,0,,G,7900,WAS,TOR,1,57%,,56.1,56.1,56.1,0.944,0.944,20.8,20.8,20.8,9.0,32.6,15.4,1.9,23.2,2.9
+Joonas Korpisalo,,,G,7800,CLS,DAL,3,,,60.0,60.0,60.0,0.892,0.892,13.2,13.2,13.2,2.8,23.6,16.8,2.2,28.0,3.6
+Mikko Koskinen,,,G,7700,EDM,PHI,1,39%,,62.1,62.1,62.1,0.914,0.914,23.2,23.2,23.2,22.1,24.3,18.1,2.4,0.0,0.0
+Martin Jones,0,,G,7500,SJ,CAR,2,38%,3.13,54.5,54.5,54.5,0.887,0.887,10.4,10.4,10.4,-5.7,26.5,15.8,2.1,0.0,0.0
+James Reimer,1,,G,7500,CAR,@SJ,0,46%,2.66,60.4,60.4,60.4,0.933,0.933,NaN,NaN,NaN,NaN,NaN,13.1,1.7,-2.4,-0.3
+Michael Hutchinson,,,G,7300,TOR,@WAS,0,,,39.0,39.0,39.0,0.894,0.894,NaN,NaN,NaN,NaN,NaN,16.3,2.2,6.4,0.9

@@ -2,8 +2,8 @@ import pulp
 from LineupGenerator import LineupGenerator
 
 class Nfl(LineupGenerator):
-	def __init__(self, sport, num_lineups, overlap, player_limit, solver, players_file, defenses_file, output_file):
-		super().__init__(sport, num_lineups, overlap, player_limit, solver, players_file, defenses_file, output_file)
+	def __init__(self, sport, num_lineups, overlap, player_limit, solver, players_file, defenses_goalies_file, output_file):
+		super().__init__(sport, num_lineups, overlap, player_limit, solver, players_file, defenses_goalies_file, output_file)
 		self.salary_cap = 55000
 		self.header = ['QB', 'WR', 'WR', 'WR', 'RB', 'RB', 'TE', 'FLEX', 'DEF']
 

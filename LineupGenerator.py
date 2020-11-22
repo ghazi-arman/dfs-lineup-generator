@@ -6,7 +6,7 @@ import pandas as pd
 from tqdm import tqdm
 
 class LineupGenerator:
-	def __init__(self, sport, num_lineups, overlap, player_limit, solver, players_file, defenses_file, output_file):
+	def __init__(self, sport, num_lineups, overlap, player_limit, solver, players_file, defenses_goalies_file, output_file):
 		self.sport = sport
 		self.num_lineups = num_lineups
 		self.overlap = overlap
@@ -15,17 +15,18 @@ class LineupGenerator:
 		self.players = self.load(players_file)
 		self.num_players = len(self.players.index)
 		self.players_teams = []
-		if sport is 'NFL':
+		if sport == 'NFL':
 			self.positions = {'QB':[], 'WR':[], 'RB':[], 'TE':[]}
-			self.defenses = self.load(defenses_file)
+			self.defenses = self.load(defenses_goalies_file)
 			self.num_defenses = len(self.defenses.index)
-			self.defenses_teams = []
-		elif sport is 'NHL':
+		elif sport == 'NHL':
 			self.positions = {'C':[], 'W':[], 'D':[]}
-			self.goalies = self.load(goalies_file)
+			self.goalies = self.load(defenses_goalies_file)
 			self.num_goalies = len(self.goalies.index)
 			self.goalies_teams = []
 			self.goalies_opponents = []
+			self.num_lines = None
+			self.team_lines = []
 		self.output_file = output_file
 		self.num_teams = None
 		self.actuals = True if 'Actual FP' in self.players else False
@@ -70,10 +71,34 @@ class LineupGenerator:
 		for player_team in self.players.loc[:, 'Team']:
 			self.players_teams.append([1 if player_team == team else 0 for team in teams])
 
-		# goalies_opponents indicates which players are not on same team as goalie
-		if self.sport is 'NHL':
-			for player_opp in self.skaters_df.loc[:, 'opp']:
-				self.goalies_opponents.append([1 if player_opp == team else 0 for team in self.goalies_df.loc[:, 'team']])
+		if self.sport == 'NHL':	
+			# player_line indicates which line by their team they are on
+			for i, line in enumerate(self.players.loc[:, 'Line']):
+				player_line = []
+				if int(line) == 1:
+					player_line.extend((1, 0, 0, 0))
+				elif int(line) == 2:
+					player_line.extend((0, 1, 0, 0))
+				elif int(line) == 3:
+					player_line.extend((0, 0, 1, 0))
+				elif int(line) == 4:
+					player_line.extend((0, 0, 0, 1))
+				else:
+					player_line.extend((0, 0, 0, 0))
+				player_lines = []
+				for team in teams:
+					if self.players.loc[i, 'Team'] == team:
+						player_lines.extend(player_line)
+					else:
+						player_lines.extend((0, 0, 0, 0))
+				self.team_lines.append(player_lines)
+			self.num_lines = len(self.team_lines[0])
+			# goalie_teams indicates which team the goalie is on
+			for goalie_team in self.goalies.loc[:, 'Team']:
+				self.goalies_teams.append([1 if goalie_team == team else 0 for team in teams])
+			# goalies_opponents indicates which players are not on same team as goalie
+			for player_opp in self.players.loc[:, 'Opp']:
+				self.goalies_opponents.append([1 if player_opp == team else 0 for team in self.goalies.loc[:, 'Team']])
 
 	def generate_lineups(self, formula):
 		lineups = []

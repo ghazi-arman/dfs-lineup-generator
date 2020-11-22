@@ -1,0 +1,7 @@
+Player Name,Likes,Inj,Pos,Salary,Team,Opp,Rest,Vegas Odds Win,Vegas Odds GA,L5 TOI,L40 TOI,S TOI,L40 SVPCT,S SVPCT,L5 FP,L40 FP,S FP,Floor FP,Ceil FP,Proj FP,Proj Val,Actual FP,Actual Val
+Tuukka Rask,,,G,9100,BOS,@DET,2,62%,,59.8,60.4,60.4,0.936,0.936,23.4,25.7,25.7,12.5,38.9,20.3,2.2,10.4,1.1
+Thatcher Demko,,,G,7900,VAN,@WPG,0,,,60.6,60.6,60.6,0.938,0.938,24.2,24.2,24.2,18.3,30.0,15.8,2.0,12.8,1.6
+Mikko Koskinen,,,G,7800,EDM,NJ,1,,,55.7,57.8,57.8,0.917,0.917,13.4,19.1,19.1,6.8,31.4,18.8,2.4,43.2,5.5
+Connor Hellebuyck,,,G,7800,WPG,VAN,2,45%,,54.9,57.9,57.9,0.933,0.933,22.1,22.5,22.5,6.2,38.8,18.0,2.3,33.6,4.3
+Cory Schneider,,,G,7000,NJ,@EDM,0,,,56.0,56.0,56.0,0.847,0.847,1.9,1.9,1.9,-8.8,12.6,13.7,2.0,6.4,0.9
+Jonathan Bernier,,,G,7000,DET,BOS,1,,,48.1,53.1,53.1,0.887,0.887,4.0,9.7,9.7,-2.0,21.4,13.4,1.9,24.8,3.5
