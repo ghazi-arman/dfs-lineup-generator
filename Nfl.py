@@ -34,11 +34,11 @@ class Nfl(LineupGenerator):
 		used_team = [pulp.LpVariable("u{}".format(i+1), cat="Binary") for i in range(self.num_teams)]
 		for i in range(self.num_teams):
 			prob += (used_team[i] <= (pulp.lpSum(self.players_teams[k][i]*players_lineup[k] for k in range(self.num_players))))
-      # ensures each lineup has a qb and wr from the same team
-			prob += (2*pulp.lpSum(self.players_teams[k][i]*self.positions['QB'][k]*players_lineup[k] for k in range(self.num_players))
+      # ensures each lineup has a QB and WR from the same team
+			prob += (pulp.lpSum(self.players_teams[k][i]*self.positions['QB'][k]*players_lineup[k] for k in range(self.num_players))
 				<= pulp.lpSum(self.players_teams[k][i]*self.positions['WR'][k]*players_lineup[k] for k in range(self.num_players)))
 			prob += (pulp.lpSum(self.players_teams[k][i]*players_lineup[k] for k in range(self.num_players)) <= 4*used_team[i])
-		# ensures that the lineup contains at least 6 unique teams
+		# ensures that the lineup contains at least X unique teams
 		prob += (pulp.lpSum(used_team[i] for i in range(self.num_teams)) >= 6)
 
 		# each new lineup can't have more than the overlap variable number of combinations of players in any previous lineups

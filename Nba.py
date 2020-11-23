@@ -25,18 +25,16 @@ class Nba(LineupGenerator):
 		# sets max salary
 		prob += (pulp.lpSum(self.players.loc[i, 'Salary']*players_lineup[i] for i in range(self.num_players)) <= self.salary_cap)
 		
-		# used_team variable used to keep track of which teams used for each lineup
+    # used_team variable used to keep track of which teams used for each lineup
 		used_team = [pulp.LpVariable("u{}".format(i+1), cat="Binary") for i in range(self.num_teams)]
 		for i in range(self.num_teams):
 			prob += (used_team[i] <= (pulp.lpSum(self.players_teams[k][i]*players_lineup[k] for k in range(self.num_players))))
-			# make sure each PG has at least one other teammate in the lineup
+      # ensures each lineup has a PG and SG from the same team
 			prob += (pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
-				<= (pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players))
-				+ pulp.lpSum(self.players_teams[k][i]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players))
-				+ pulp.lpSum(self.players_teams[k][i]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players))))
+				<= pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players)))
 			prob += (pulp.lpSum(self.players_teams[k][i]*players_lineup[k] for k in range(self.num_players)) <= 4*used_team[i])
-		# ensures that the lineup contains at least 6 unique teams
-		prob += (pulp.lpSum(used_team[i] for i in range(self.num_teams)) == 4)
+		# ensures that the lineup contains at least X unique teams
+		prob += (pulp.lpSum(used_team[i] for i in range(self.num_teams)) >= 6)
 		
 		# each new lineup can't have more than the overlap variable number of combinations of players in any previous lineups
 		for i in range(len(lineups)):
@@ -73,24 +71,26 @@ class Nba(LineupGenerator):
 				total_actual = 0
 			for num, player in enumerate(players_lineup):
 				if player > 0.9 and player < 1.1:
-					if a_lineup[0] == "":
-						a_lineup[0] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
-					elif a_lineup[1] == "":
-						a_lineup[1] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
-					elif a_lineup[2] == "":
-						a_lineup[2] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
-					elif a_lineup[3] == "":
-						a_lineup[3] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
-					elif a_lineup[4] == "":
-						a_lineup[4] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
-					elif a_lineup[5] == "":
-						a_lineup[5] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
-					elif a_lineup[5] == "":
-						a_lineup[5] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
-					elif a_lineup[6] == "":
-						a_lineup[6] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
-					elif a_lineup[7] == "":
-						a_lineup[7] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+					if self.positions['PG'][num] == 1:
+						if a_lineup[0] == "":
+							a_lineup[0] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+						elif a_lineup[1] == "":
+							a_lineup[1] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+					elif self.positions['SG'][num] == 1:
+						if a_lineup[2] == "":
+							a_lineup[2] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+						elif a_lineup[3] == "":
+							a_lineup[3] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+					elif self.positions['SF'][num] == 1:
+						if a_lineup[4] == "":
+							a_lineup[4] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+						elif a_lineup[5] == "":
+							a_lineup[5] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+					elif self.positions['PF'][num] == 1:
+						if a_lineup[6] == "":
+							a_lineup[6] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+						elif a_lineup[7] == "":
+							a_lineup[7] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 					else:
 						a_lineup[8] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 					total_proj += self.players.loc[num, 'Proj FP']

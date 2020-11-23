@@ -9,7 +9,7 @@ while True:
 	if sys.argv[1] == 'NFL':
 		generator = Nfl(
 			sport = "NFL",
-			num_lineups = 5,
+			num_lineups = 150,
 			overlap = 4,
 			player_limit = 10,
 			solver = pulp.GLPK_CMD(msg=0),
@@ -20,7 +20,7 @@ while True:
 	if sys.argv[1] == 'NHL':
 		generator = Nhl(
 			sport = "NHL",
-			num_lineups = 5,
+			num_lineups = 150,
 			overlap = 5,
 			player_limit = 10,
 			solver = pulp.GLPK_CMD(msg=0),
