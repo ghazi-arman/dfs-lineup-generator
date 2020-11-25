@@ -6,9 +6,7 @@ with open('./nfl/inputs/players.csv', mode='w') as file:
   writer.writerow(["Player Name", "Pos", "Salary", "Team", "Proj FP", "Actual FP"])
   with open('./nfl/inputs/{}/{}/players.csv'.format(sys.argv[1], sys.argv[2]),'rt')as f:
     data = csv.reader(f)
-    count = 0
     for row in data:
-      name = row[0].lower().replace(" jr.", "").replace(".", "")
       # if row is the header, player is injured, or has a projection lower than 1 skip player
       if row[2] == 'Inj' or row[2] == 'O' or row[2] == 'D' or float(row[33]) < 1:
         continue
