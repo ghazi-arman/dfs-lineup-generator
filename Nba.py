@@ -29,12 +29,27 @@ class Nba(LineupGenerator):
 		used_team = [pulp.LpVariable("u{}".format(i+1), cat="Binary") for i in range(self.num_teams)]
 		for i in range(self.num_teams):
 			prob += (used_team[i] <= (pulp.lpSum(self.players_teams[k][i]*players_lineup[k] for k in range(self.num_players))))
-      # ensures each lineup has a PG and SG from the same team
+
+			# ensures that there is only one of each position from a single team
+			prob += pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players)) <= 1
+			prob += pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players)) <= 1
+			prob += pulp.lpSum(self.players_teams[k][i]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players)) <= 1
+			prob += pulp.lpSum(self.players_teams[k][i]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players)) <= 1
+
+			# stacks PGs and SGs with another player from the same team
 			prob += (pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
-				<= pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players)))
+				<= pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players))
+				+ pulp.lpSum(self.players_teams[k][i]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players))
+				+ pulp.lpSum(self.players_teams[k][i]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players))
+			  + pulp.lpSum(self.players_teams[k][i]*self.positions['C'][k]*players_lineup[k] for k in range(self.num_players)))
+			prob += (pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players))
+				<= pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
+				+ pulp.lpSum(self.players_teams[k][i]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players))
+				+ pulp.lpSum(self.players_teams[k][i]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players))
+			  + pulp.lpSum(self.players_teams[k][i]*self.positions['C'][k]*players_lineup[k] for k in range(self.num_players)))
 			prob += (pulp.lpSum(self.players_teams[k][i]*players_lineup[k] for k in range(self.num_players)) <= 4*used_team[i])
-		# ensures that the lineup contains at least X unique teams
-		prob += (pulp.lpSum(used_team[i] for i in range(self.num_teams)) >= 6)
+		# ensures that the lineup contains less than X unique teams
+		prob += (pulp.lpSum(used_team[i] for i in range(self.num_teams)) <= 5)
 		
 		# each new lineup can't have more than the overlap variable number of combinations of players in any previous lineups
 		for i in range(len(lineups)):

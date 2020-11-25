@@ -32,8 +32,8 @@ while True:
 		generator = Nba(
 			sport = "NBA",
 			num_lineups = 150,
-			overlap = 4,
-			player_limit = 20,
+			overlap = 5,
+			player_limit = 150,
 			solver = pulp.GLPK_CMD(msg=0),
 			players_file = 'nba/inputs/players.csv',
 			defenses_goalies_file = None,

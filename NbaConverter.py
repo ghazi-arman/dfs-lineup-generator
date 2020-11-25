@@ -15,4 +15,4 @@ with open('./nba/inputs/players.csv', mode='w') as file:
       else:
         # projection =  projected value
         projection =  row[20]
-        writer.writerow([row[0], row[1], row[6], row[2], row[20], row[28]])
+        writer.writerow([row[0], row[1], row[6], row[2], projection, row[28]])
