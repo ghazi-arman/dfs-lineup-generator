@@ -35,14 +35,5 @@ for dir in sub_directories:
       scores.append(0.0)
   scores_table.loc[dir] = scores
 
-with open(directory+"correlation.csv", mode='w') as file:
-  writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-  players_names = [*players]
-  players_names.insert(0, "Name")
-  writer.writerow(players_names)
-  for player_one in players.keys():
-    correlation = []
-    correlation.append(player_one)
-    for player_two in players.keys():
-      correlation.append(str(scores_table[player_one].corr(scores_table[player_two])))
-    writer.writerow(correlation)
+correlation_matrix = scores_table.corr()
+correlation_matrix.to_csv(directory+"correlation.csv")
