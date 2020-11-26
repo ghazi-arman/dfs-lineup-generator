@@ -6,7 +6,7 @@ from Nba import Nba
 
 while True:
 	print()
-	if sys.argv[1] == 'NFL':
+	if sys.argv[1].lower() == 'nfl':
 		generator = Nfl(
 			sport = "NFL",
 			num_lineups = 150,
@@ -17,7 +17,7 @@ while True:
 			defenses_goalies_file = 'nfl/inputs/defense.csv',
 			output_file = 'nfl/outputs/{}/output_{}.csv'.format(sys.argv[2], sys.argv[3])
 		)
-	if sys.argv[1] == 'NHL':
+	if sys.argv[1].lower() == 'nhl':
 		generator = Nhl(
 			sport = "NHL",
 			num_lineups = 150,
@@ -28,7 +28,7 @@ while True:
 			defenses_goalies_file = 'nhl/inputs/goalies.csv',
 			output_file = 'nhl/outputs/{}/output_{}.csv'.format(sys.argv[2], sys.argv[3])
 		)
-	if sys.argv[1] == 'NBA':
+	if sys.argv[1].lower() == 'nba':
 		generator = Nba(
 			sport = "NBA",
 			num_lineups = 150,
