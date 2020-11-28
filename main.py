@@ -13,6 +13,7 @@ while True:
 			overlap = 4,
 			player_limit = 10,
 			solver = pulp.GLPK_CMD(msg=0),
+			correlation_file = 'nfl/inputs/{}/correlation.csv'.format(sys.argv[2]),
 			players_file = 'nfl/inputs/players.csv',
 			defenses_goalies_file = 'nfl/inputs/defense.csv',
 			output_file = 'nfl/outputs/{}/output_{}.csv'.format(sys.argv[2], sys.argv[3])
@@ -24,6 +25,7 @@ while True:
 			overlap = 5,
 			player_limit = 10,
 			solver = pulp.GLPK_CMD(msg=0),
+			correlation_file = 'nhl/inputs/{}/correlation.csv'.format(sys.argv[2]),
 			players_file = 'nhl/inputs/players.csv',
 			defenses_goalies_file = 'nhl/inputs/goalies.csv',
 			output_file = 'nhl/outputs/{}/output_{}.csv'.format(sys.argv[2], sys.argv[3])
@@ -35,6 +37,7 @@ while True:
 			overlap = 5,
 			player_limit = 150,
 			solver = pulp.GLPK_CMD(msg=0),
+			correlation_file = 'nba/inputs/{}/correlation.csv'.format(sys.argv[2]),
 			players_file = 'nba/inputs/players.csv',
 			defenses_goalies_file = None,
 			output_file = 'nba/outputs/{}/output_{}.csv'.format(sys.argv[2], sys.argv[3])

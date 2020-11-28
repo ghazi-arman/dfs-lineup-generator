@@ -2,8 +2,8 @@ import pulp
 from LineupGenerator import LineupGenerator
 
 class Nhl(LineupGenerator):
-	def __init__(self, sport, num_lineups, overlap, player_limit, solver, players_file, defenses_goalies_file, output_file):
-		super().__init__(sport, num_lineups, overlap, player_limit, solver, players_file, defenses_goalies_file, output_file)
+	def __init__(self, sport, num_lineups, overlap, player_limit, solver, correlation_file, players_file, defenses_goalies_file, output_file):
+		super().__init__(sport, num_lineups, overlap, player_limit, solver, correlation_file, players_file, defenses_goalies_file, output_file)
 		self.salary_cap = 55000
 		self.header = ['C', 'C', 'W', 'W', 'W', 'W', 'D', 'D', 'G']
 
@@ -25,9 +25,7 @@ class Nhl(LineupGenerator):
 		# sets max salary
 		prob += ((pulp.lpSum(self.players.loc[i, 'Salary']*players_lineup[i] for i in range(self.num_players)) +
 			pulp.lpSum(self.goalies.loc[i, 'Salary']*goalies_lineup[i] for i in range(self.num_goalies))) <= self.salary_cap)
-		prob += ((pulp.lpSum(self.players.loc[i, 'Salary']*players_lineup[i] for i in range(self.num_players)) +
-			pulp.lpSum(self.goalies.loc[i, 'Salary']*goalies_lineup[i] for i in range(self.num_goalies))) >= self.salary_cap - 5000)
-		
+
 		# used_team variable used to keep track of which teams used for each lineup
 		used_team = [pulp.LpVariable("u{}".format(i+1), cat="Binary") for i in range(self.num_teams)]
 		used_team_players = [pulp.LpVariable("us{}".format(i+1), cat="Binary") for i in range(self.num_teams)]
@@ -86,12 +84,12 @@ class Nhl(LineupGenerator):
 		# Puts the output of one lineup into a format that will be used later
 		lineup_copy = []
 		for i in range(self.num_players):
-			if players_lineup[i].varValue >= 0.9 and players_lineup[i].varValue <= 1.1:
+			if players_lineup[i].varValue == 1:
 				lineup_copy.append(1)
 			else:
 				lineup_copy.append(0)
 		for i in range(self.num_goalies):
-			if goalies_lineup[i].varValue >= 0.9 and goalies_lineup[i].varValue <= 1.1:
+			if goalies_lineup[i].varValue == 1:
 				lineup_copy.append(1)
 			else:
 				lineup_copy.append(0)
@@ -107,7 +105,7 @@ class Nhl(LineupGenerator):
 			if self.actuals:
 				total_actual = 0
 			for num, player in enumerate(players_lineup):
-				if player > 0.9 and player < 1.1:
+				if player == 1:
 					if self.positions['C'][num] == 1:
 						if a_lineup[0] == "":
 							a_lineup[0] = self.players.loc[num, 'Player Name']
@@ -131,7 +129,7 @@ class Nhl(LineupGenerator):
 					if self.actuals:
 						total_actual += self.players.loc[num, 'Actual FP']
 			for num, goalie in enumerate(goalies_lineup):
-				if goalie > 0.9 and goalie < 1.1:
+				if goalie == 1:
 					if a_lineup[8] == "":
 						a_lineup[8] = self.goalies.loc[num, 'Player Name']
 					total_proj += self.goalies.loc[num, 'Proj FP']

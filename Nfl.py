@@ -2,8 +2,8 @@ import pulp
 from LineupGenerator import LineupGenerator
 
 class Nfl(LineupGenerator):
-	def __init__(self, sport, num_lineups, overlap, player_limit, solver, players_file, defenses_goalies_file, output_file):
-		super().__init__(sport, num_lineups, overlap, player_limit, solver, players_file, defenses_goalies_file, output_file)
+	def __init__(self, sport, num_lineups, overlap, player_limit, solver, correlation_file, players_file, defenses_goalies_file, output_file):
+		super().__init__(sport, num_lineups, overlap, player_limit, solver, correlation_file, players_file, defenses_goalies_file, output_file)
 		self.salary_cap = 55000
 		self.header = ['QB', 'WR', 'WR', 'WR', 'RB', 'RB', 'TE', 'FLEX', 'DEF']
 
@@ -64,12 +64,12 @@ class Nfl(LineupGenerator):
 
 		lineup_copy = []
 		for i in range(self.num_players):
-			if players_lineup[i].varValue >= 0.9 and players_lineup[i].varValue <= 1.1:
+			if players_lineup[i].varValue == 1:
 				lineup_copy.append(1)
 			else:
 				lineup_copy.append(0)
 		for i in range(self.num_defenses):
-			if defenses_lineup[i].varValue >= 0.9 and defenses_lineup[i].varValue <= 1.1:
+			if defenses_lineup[i].varValue == 1:
 				lineup_copy.append(1)
 			else:
 				lineup_copy.append(0)
@@ -85,7 +85,7 @@ class Nfl(LineupGenerator):
 			if self.actuals:
 				total_actual = 0
 			for num, player in enumerate(players_lineup):
-				if player > 0.9 and player < 1.1:
+				if player == 1:
 					if self.positions['QB'][num] == 1:
 						if a_lineup[0] == "":
 							a_lineup[0] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
@@ -116,7 +116,7 @@ class Nfl(LineupGenerator):
 					if self.actuals:
 						total_actual += self.players.loc[num, 'Actual FP']
 			for num, defense in enumerate(defenses_lineup):
-				if defense > 0.9 and defense < 1.1:
+				if defense == 1:
 					if a_lineup[8] == "":
 						a_lineup[8] = self.defenses.loc[num, 'Player Name']
 					total_proj += self.defenses.loc[num, 'Proj FP']

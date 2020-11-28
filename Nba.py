@@ -2,8 +2,8 @@ import pulp
 from LineupGenerator import LineupGenerator
 
 class Nba(LineupGenerator):
-	def __init__(self, sport, num_lineups, overlap, player_limit, solver, players_file, defenses_goalies_file, output_file):
-		super().__init__(sport, num_lineups, overlap, player_limit, solver, players_file, defenses_goalies_file, output_file)
+	def __init__(self, sport, num_lineups, overlap, player_limit, solver, correlation_file, players_file, defenses_goalies_file, output_file):
+		super().__init__(sport, num_lineups, overlap, player_limit, solver, correlation_file, players_file, defenses_goalies_file, output_file)
 		self.salary_cap = 55000
 		self.header = ['PG', 'PG', 'SG', 'SG', 'SF', 'SF', 'PF', 'PF', 'C']
 
@@ -30,26 +30,15 @@ class Nba(LineupGenerator):
 		for i in range(self.num_teams):
 			prob += (used_team[i] <= (pulp.lpSum(self.players_teams[k][i]*players_lineup[k] for k in range(self.num_players))))
 
-			# ensures that there is only one of each position from a single team
-			prob += pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players)) <= 1
-			prob += pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players)) <= 1
-			prob += pulp.lpSum(self.players_teams[k][i]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players)) <= 1
-			prob += pulp.lpSum(self.players_teams[k][i]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players)) <= 1
-
-			# stacks PGs and SGs with another player from the same team
-			prob += (pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
-				<= pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players))
-				+ pulp.lpSum(self.players_teams[k][i]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players))
-				+ pulp.lpSum(self.players_teams[k][i]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players))
-			  + pulp.lpSum(self.players_teams[k][i]*self.positions['C'][k]*players_lineup[k] for k in range(self.num_players)))
+			# stacks SGs with another player from the same team
 			prob += (pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players))
 				<= pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
 				+ pulp.lpSum(self.players_teams[k][i]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players))
 				+ pulp.lpSum(self.players_teams[k][i]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players))
 			  + pulp.lpSum(self.players_teams[k][i]*self.positions['C'][k]*players_lineup[k] for k in range(self.num_players)))
 			prob += (pulp.lpSum(self.players_teams[k][i]*players_lineup[k] for k in range(self.num_players)) <= 4*used_team[i])
-		# ensures that the lineup contains less than X unique teams
-		#prob += (pulp.lpSum(used_team[i] for i in range(self.num_teams)) <= 5)
+		# # ensures that the lineup contains less than X unique teams
+		prob += (pulp.lpSum(used_team[i] for i in range(self.num_teams)) == 5)
 		
 		# each new lineup can't have more than the overlap variable number of combinations of players in any previous lineups
 		for i in range(len(lineups)):
@@ -70,7 +59,7 @@ class Nba(LineupGenerator):
 
 		lineup_copy = []
 		for i in range(self.num_players):
-			if players_lineup[i].varValue >= 0.9 and players_lineup[i].varValue <= 1.1:
+			if players_lineup[i].varValue == 1:
 				lineup_copy.append(1)
 			else:
 				lineup_copy.append(0)
@@ -85,7 +74,7 @@ class Nba(LineupGenerator):
 			if self.actuals:
 				total_actual = 0
 			for num, player in enumerate(players_lineup):
-				if player > 0.9 and player < 1.1:
+				if player == 1:
 					if self.positions['PG'][num] == 1:
 						if a_lineup[0] == "":
 							a_lineup[0] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
