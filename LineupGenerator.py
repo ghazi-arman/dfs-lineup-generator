@@ -4,13 +4,15 @@ import pulp
 import copy
 import pandas as pd
 from tqdm import tqdm
+import os.path
 
 class LineupGenerator:
-	def __init__(self, sport, num_lineups, overlap, player_limit, solver, correlation_file, players_file, defenses_goalies_file, output_file):
+	def __init__(self, sport, num_lineups, overlap, player_limit, teams_limit, solver, correlation_file, players_file, defenses_goalies_file, output_file):
 		self.sport = sport
 		self.num_lineups = num_lineups
 		self.overlap = overlap
 		self.player_limit = player_limit
+		self.teams_limit = teams_limit
 		self.solver = solver
 		self.players = self.load(players_file)
 		self.num_players = len(self.players.index)
@@ -29,7 +31,8 @@ class LineupGenerator:
 			self.team_lines = []
 		elif sport == 'NBA':
 			self.positions = {'PG':[], 'SG':[], 'SF':[], 'PF':[], 'C':[]}
-		self.correlation_matrix = self.load(correlation_file)
+		if os.path.exists(correlation_file):
+			self.correlation_matrix = self.load(correlation_file)
 		self.output_file = output_file
 		self.num_teams = None
 		self.actuals = True if 'Actual FP' in self.players else False

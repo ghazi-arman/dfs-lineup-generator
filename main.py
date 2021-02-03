@@ -10,37 +10,40 @@ while True:
 		generator = Nfl(
 			sport = "NFL",
 			num_lineups = 150,
-			overlap = 4,
-			player_limit = 10,
+			overlap = int(sys.argv[4]),
+			player_limit = int(sys.argv[5]),
+			teams_limit = int(sys.argv[6]),
 			solver = pulp.GLPK_CMD(msg=0),
 			correlation_file = 'nfl/inputs/{}/correlation.csv'.format(sys.argv[2]),
 			players_file = 'nfl/inputs/players.csv',
 			defenses_goalies_file = 'nfl/inputs/defense.csv',
-			output_file = 'nfl/outputs/{}/output_{}.csv'.format(sys.argv[2], sys.argv[3])
+			output_file = 'nfl/outputs/{}/output_{}_overlap_{}_playerlimit_{}_numteams_{}_stack_{}.csv'.format(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
 		)
 	if sys.argv[1].lower() == 'nhl':
 		generator = Nhl(
 			sport = "NHL",
 			num_lineups = 150,
-			overlap = 5,
-			player_limit = 10,
+			overlap = int(sys.argv[4]),
+			player_limit = int(sys.argv[5]),
+			teams_limit = int(sys.argv[6]),
 			solver = pulp.GLPK_CMD(msg=0),
 			correlation_file = 'nhl/inputs/{}/correlation.csv'.format(sys.argv[2]),
 			players_file = 'nhl/inputs/players.csv',
 			defenses_goalies_file = 'nhl/inputs/goalies.csv',
-			output_file = 'nhl/outputs/{}/output_{}.csv'.format(sys.argv[2], sys.argv[3])
+			output_file = 'nhl/outputs/{}/output_{}_overlap_{}_playerlimit_{}_numteams_{}_stack_{}.csv'.format(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
 		)
 	if sys.argv[1].lower() == 'nba':
 		generator = Nba(
 			sport = "NBA",
-			num_lineups = 150,
-			overlap = 5,
-			player_limit = 150,
+			num_lineups = 1,
+			overlap = int(sys.argv[4]),
+			player_limit = int(sys.argv[5]),
+			teams_limit = int(sys.argv[6]),
 			solver = pulp.GLPK_CMD(msg=0),
 			correlation_file = 'nba/inputs/{}/correlation.csv'.format(sys.argv[2]),
 			players_file = 'nba/inputs/players.csv',
 			defenses_goalies_file = None,
-			output_file = 'nba/outputs/{}/output_{}.csv'.format(sys.argv[2], sys.argv[3])
+			output_file = 'nba/outputs/{}/output_{}_overlap_{}_playerlimit_{}_numteams_{}_stack_{}.csv'.format(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
 		)
 	# create the indicators used to set the constraints to be used by the formula
 	generator.create_indicators()
