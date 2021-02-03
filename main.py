@@ -35,7 +35,7 @@ while True:
 	if sys.argv[1].lower() == 'nba':
 		generator = Nba(
 			sport = "NBA",
-			num_lineups = 1,
+			num_lineups = 150,
 			overlap = int(sys.argv[4]),
 			player_limit = int(sys.argv[5]),
 			teams_limit = int(sys.argv[6]),

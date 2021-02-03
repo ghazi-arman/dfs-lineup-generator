@@ -1,5 +1,4 @@
 #!/bin/sh
-clear
 echo $1 $2 $3 
 echo "overlap" $4
 echo "player limit" $5
