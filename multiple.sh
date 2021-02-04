@@ -1,6 +1,6 @@
 #!/bin/sh
-overlaps=(3 4 5 6)
-player_limits=(10 25 50 100)
+overlaps=(3 4 5)
+player_limits=(10 30 75)
 team_limits=(3 4 5 6)
 for overlap in "${overlaps[@]}"
 do

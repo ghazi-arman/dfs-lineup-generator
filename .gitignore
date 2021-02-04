@@ -7,3 +7,4 @@ nba/inputs/players.csv
 nba/inputs/*/players/
 __pycache__/
 .DS_Store
+results.txt
