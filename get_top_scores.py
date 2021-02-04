@@ -5,7 +5,15 @@ import csv
 directory = '{}/outputs/{}'.format(sys.argv[1], sys.argv[2])
 top_scores=[]
 for filename in os.listdir(directory):
-  if (len(sys.argv) <= 4 or sys.argv[4] in filename): 
+  # if we want to limit output files by certain parameters (date, player_limit, overlap, etc.)
+  if (len(sys.argv) >= 5):
+    contains_queries = True
+    queries = sys.argv[4].split(",")
+    for query in queries:
+      if query not in filename:
+        contains_queries = False
+  if (len(sys.argv) <= 4 or contains_queries): 
+    # iterate through each output file and take top X scores
     with open('{}/outputs/{}/{}'.format(sys.argv[1], sys.argv[2], filename),'rt') as f:
       data = csv.reader(f)
       scores=[]
