@@ -16,7 +16,7 @@ while True:
 			stack = sys.argv[7],
 			solver = pulp.GLPK_CMD(msg=0),
 			correlation_file = 'nfl/inputs/{}/correlation.csv'.format(sys.argv[2]),
-			players_file = 'nfl/inputs/players.csv',
+			players_file = 'nfl/inputs/{}/{}/players.csv'.format(sys.argv[2], sys.argv[3]),
 			defenses_goalies_file = 'nfl/inputs/defense.csv',
 			output_file = 'nfl/outputs/{}/output_{}_overlap_{}_playerlimit_{}_numteams_{}_stack_{}.csv'.format(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
 		)
@@ -30,7 +30,7 @@ while True:
 			stack = sys.argv[7],
 			solver = pulp.GLPK_CMD(msg=0),
 			correlation_file = 'nhl/inputs/{}/correlation.csv'.format(sys.argv[2]),
-			players_file = 'nhl/inputs/players.csv',
+			players_file = 'nhl/inputs/{}/{}/players.csv'.format(sys.argv[2], sys.argv[3]),
 			defenses_goalies_file = 'nhl/inputs/goalies.csv',
 			output_file = 'nhl/outputs/{}/output_{}_overlap_{}_playerlimit_{}_numteams_{}_stack_{}.csv'.format(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
 		)
@@ -44,7 +44,7 @@ while True:
 			stack = sys.argv[7],
 			solver = pulp.GLPK_CMD(msg=0),
 			correlation_file = 'nba/inputs/{}/correlation.csv'.format(sys.argv[2]),
-			players_file = 'nba/inputs/players.csv',
+			players_file = 'nba/inputs/{}/{}/players.csv'.format(sys.argv[2], sys.argv[3]),
 			defenses_goalies_file = None,
 			output_file = 'nba/outputs/{}/output_{}_overlap_{}_playerlimit_{}_numteams_{}_stack_{}.csv'.format(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
 		)

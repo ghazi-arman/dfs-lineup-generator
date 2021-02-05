@@ -1,7 +1,7 @@
 import csv
 import sys
 
-with open('./nhl/inputs/players.csv', mode='w') as file:
+with open('./nhl/inputs/players.csv', mode='w+') as file:
   writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
   writer.writerow(["Player Name", "Pos", "Salary", "Team", "Opp", "Line", "Proj FP", "Actual FP"])
   with open('./nhl/inputs/{}/{}/players.csv'.format(sys.argv[1], sys.argv[2]),'rt')as f:
@@ -29,7 +29,7 @@ with open('./nhl/inputs/players.csv', mode='w') as file:
       writer.writerow([row[0], row[3], row[4], row[5], opponent, line, row[22], row[24]])
       count += 1
 
-with open('./nhl/inputs/goalies.csv', mode='w') as file:
+with open('./nhl/inputs/goalies.csv', mode='w+') as file:
   writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
   writer.writerow(["Player Name", "Salary", "Team", "Opp", "Proj FP", "Actual FP"])
   with open('./nhl/inputs/{}/{}/goalies.csv'.format(sys.argv[1], sys.argv[2]),'rt')as f:
