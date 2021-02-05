@@ -7,12 +7,13 @@ from tqdm import tqdm
 import os.path
 
 class LineupGenerator:
-	def __init__(self, sport, num_lineups, overlap, player_limit, teams_limit, solver, correlation_file, players_file, defenses_goalies_file, output_file):
+	def __init__(self, sport, num_lineups, overlap, player_limit, teams_limit, stack, solver, correlation_file, players_file, defenses_goalies_file, output_file):
 		self.sport = sport
 		self.num_lineups = num_lineups
 		self.overlap = overlap
 		self.player_limit = player_limit
 		self.teams_limit = teams_limit
+		self.stack = stack
 		self.solver = solver
 		self.players = self.load(players_file)
 		self.num_players = len(self.players.index)

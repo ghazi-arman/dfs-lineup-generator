@@ -2,8 +2,8 @@ import pulp
 from LineupGenerator import LineupGenerator
 
 class Nba(LineupGenerator):
-	def __init__(self, sport, num_lineups, overlap, player_limit, teams_limit, solver, correlation_file, players_file, defenses_goalies_file, output_file):
-		super().__init__(sport, num_lineups, overlap, player_limit, teams_limit, solver, correlation_file, players_file, defenses_goalies_file, output_file)
+	def __init__(self, sport, num_lineups, overlap, player_limit, teams_limit, stack, solver, correlation_file, players_file, defenses_goalies_file, output_file):
+		super().__init__(sport, num_lineups, overlap, player_limit, teams_limit, stack, solver, correlation_file, players_file, defenses_goalies_file, output_file)
 		self.salary_cap = 55000
 		self.header = ['PG', 'PG', 'SG', 'SG', 'SF', 'SF', 'PF', 'PF', 'C']
 
@@ -31,10 +31,51 @@ class Nba(LineupGenerator):
 			prob += (used_team[i] <= (pulp.lpSum(self.players_teams[k][i]*players_lineup[k] for k in range(self.num_players))))
 
 			# stacks SGs with another player from the same team
-			prob += (pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
-				<= pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players)))
+			if self.stack == "PG-SG":
+				prob += (pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
+					<= pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players)))
+			elif self.stack == "PG-(SG-SF-PF)":
+				prob += (pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
+					<= (pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players))
+					+ pulp.lpSum(self.players_teams[k][i]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players))
+					+ pulp.lpSum(self.players_teams[k][i]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players))))
+			elif self.stack == "PG-(SG-SF-PF)-(SG-SF-PF)":
+				prob += (2*pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
+					<= (pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players))
+					+ pulp.lpSum(self.players_teams[k][i]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players))
+					+ pulp.lpSum(self.players_teams[k][i]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players))))
+			elif self.stack == "PG-SG+PG-SG":
+				for j in range(self.num_teams):
+					if i != j:
+						prob += (pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
+							<= pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players)))
+						prob += (pulp.lpSum(self.players_teams[k][j]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
+							<= pulp.lpSum(self.players_teams[k][j]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players)))
+			elif self.stack == "PG-(SG-SF-PF)+PG-(SG-SF-PF)":
+				for j in range(self.num_teams):
+					if i != j:
+						prob += (pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
+							<= (pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players))
+							+ pulp.lpSum(self.players_teams[k][i]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players))
+							+ pulp.lpSum(self.players_teams[k][i]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players))))
+						prob += (pulp.lpSum(self.players_teams[k][j]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
+							<= (pulp.lpSum(self.players_teams[k][j]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players))
+							+ pulp.lpSum(self.players_teams[k][j]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players))
+							+ pulp.lpSum(self.players_teams[k][j]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players))))
+			elif self.stack == "PG-(SG-SF-PF)-(SG-SF-PF)+PG-(SG-SF-PF)-(SG-SF-PF)":
+				for j in range(self.num_teams):
+					if i != j:
+						prob += (2*pulp.lpSum(self.players_teams[k][i]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
+							<= (pulp.lpSum(self.players_teams[k][i]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players))
+							+ pulp.lpSum(self.players_teams[k][i]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players))
+							+ pulp.lpSum(self.players_teams[k][i]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players))))
+						prob += (2*pulp.lpSum(self.players_teams[k][j]*self.positions['PG'][k]*players_lineup[k] for k in range(self.num_players))
+							<= (pulp.lpSum(self.players_teams[k][j]*self.positions['SG'][k]*players_lineup[k] for k in range(self.num_players))
+							+ pulp.lpSum(self.players_teams[k][j]*self.positions['SF'][k]*players_lineup[k] for k in range(self.num_players))
+							+ pulp.lpSum(self.players_teams[k][j]*self.positions['PF'][k]*players_lineup[k] for k in range(self.num_players))))
+			
 			prob += (pulp.lpSum(self.players_teams[k][i]*players_lineup[k] for k in range(self.num_players)) <= 4*used_team[i])
-		# # ensures that the lineup contains less than X unique teams
+		# ensures that the lineup contains less than X unique teams
 		prob += (pulp.lpSum(used_team[i] for i in range(self.num_teams)) == 5)
 		
 		# each new lineup can't have more than the overlap variable number of combinations of players in any previous lineups
