@@ -23,7 +23,7 @@ while True:
 	if sys.argv[1].lower() == 'nhl':
 		generator = Nhl(
 			sport = "NHL",
-			num_lineups = 150,
+			num_lineups = 10,
 			overlap = int(sys.argv[4]),
 			player_limit = int(sys.argv[5]),
 			teams_limit = int(sys.argv[6]),
@@ -31,7 +31,7 @@ while True:
 			solver = pulp.GLPK_CMD(msg=0),
 			correlation_file = 'nhl/inputs/{}/correlation.csv'.format(sys.argv[2]),
 			players_file = 'nhl/inputs/{}/{}/players.csv'.format(sys.argv[2], sys.argv[3]),
-			defenses_goalies_file = 'nhl/inputs/goalies.csv',
+			defenses_goalies_file = 'nhl/inputs/{}/{}/goalies.csv'.format(sys.argv[2], sys.argv[3]),
 			output_file = 'nhl/outputs/{}/output_{}_overlap_{}_playerlimit_{}_numteams_{}_stack_{}.csv'.format(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
 		)
 	if sys.argv[1].lower() == 'nba':

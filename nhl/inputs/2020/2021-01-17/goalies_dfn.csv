@@ -1,0 +1,5 @@
+Player Name,Likes,Inj,Pos,Salary,Team,Opp,Rest,Vegas Odds Win,Vegas Odds GA,L5 TOI,L40 TOI,S TOI,L40 SVPCT,S SVPCT,L5 FP,L40 FP,S FP,Floor FP,Ceil FP,Proj FP,Proj Val,Actual FP,Actual Val
+Casey DeSmith,,,G,7700,PIT,WAS,1,55%,3.09,47.8,47.8,47.8,0.923,0.923,5.6,5.6,5.6,5.6,5.6,18.0,2.3,24.0,3.1
+Ilya Samsonov,,,G,7600,WAS,@PIT,2,45%,3.41,60.0,60.0,60.0,0.846,0.846,13.6,13.6,13.6,13.6,13.6,15.0,2.0,7.2,0.9
+Chris Driedger,,,G,7600,FLA,CHI,n/a,57%,3.01,0.0,0.0,0.0,0.000,0.000,0.0,0.0,0.0,0.0,0.0,18.4,2.4,22.4,2.9
+Collin Delia,,,G,6700,CHI,@FLA,1,42%,3.49,30.0,30.0,30.0,0.865,0.865,2.8,2.8,2.8,-1.2,6.8,16.6,2.5,-0.8,-0.1
