@@ -5,7 +5,7 @@ class Nhl(LineupGenerator):
 	def __init__(self, sport, num_lineups, overlap, player_limit, teams_limit, stack, solver, correlation_file, players_file, defenses_goalies_file, output_file):
 		super().__init__(sport, num_lineups, overlap, player_limit, teams_limit, stack, solver, correlation_file, players_file, defenses_goalies_file, output_file)
 		self.salary_cap = 55000
-		self.header = ['C', 'C', 'W', 'W', 'W', 'W', 'D', 'D', 'G']
+		self.header = ['C', 'C', 'W', 'W', 'D', 'D', 'Util', 'Util', 'G']
 
 	def generate(self, lineups):
 		prob = pulp.LpProblem('NHL', pulp.LpMaximize)
@@ -18,9 +18,11 @@ class Nhl(LineupGenerator):
 		prob += (pulp.lpSum(goalies_lineup[i] for i in range(self.num_goalies)) == 1)
 
 		# sets positional limits for each lineup
-		prob += (pulp.lpSum(self.positions['C'][i]*players_lineup[i] for i in range(self.num_players)) == 2)
-		prob += (pulp.lpSum(self.positions['W'][i]*players_lineup[i] for i in range(self.num_players)) == 4)
+		prob += (pulp.lpSum(self.positions['C'][i]*players_lineup[i] for i in range(self.num_players)) >= 2)
+		prob += (pulp.lpSum(self.positions['W'][i]*players_lineup[i] for i in range(self.num_players)) >= 2)
 		prob += (pulp.lpSum(self.positions['D'][i]*players_lineup[i] for i in range(self.num_players)) == 2)
+		prob += (pulp.lpSum(self.positions['C'][i]*players_lineup[i] for i in range(self.num_players))
+			+ pulp.lpSum(self.positions['W'][i]*players_lineup[i] for i in range(self.num_players)) == 6)
 
 		# sets max salary
 		prob += ((pulp.lpSum(self.players.loc[i, 'Salary']*players_lineup[i] for i in range(self.num_players)) +
@@ -109,20 +111,24 @@ class Nhl(LineupGenerator):
 							a_lineup[0] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 						elif a_lineup[1] == "":
 							a_lineup[1] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+						elif a_lineup[6] == "":
+							a_lineup[6] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+						elif a_lineup[7] == "":
+							a_lineup[7] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 					elif self.positions['W'][num] == 1:
 						if a_lineup[2] == "":
 							a_lineup[2] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 						elif a_lineup[3] == "":
 							a_lineup[3] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
-						elif a_lineup[4] == "":
-							a_lineup[4] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
-						elif a_lineup[5] == "":
-							a_lineup[5] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
-					elif self.positions['D'][num] == 1:
-						if a_lineup[6] == "":
+						elif a_lineup[6] == "":
 							a_lineup[6] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 						elif a_lineup[7] == "":
 							a_lineup[7] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+					elif self.positions['D'][num] == 1:
+						if a_lineup[4] == "":
+							a_lineup[4] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
+						elif a_lineup[5] == "":
+							a_lineup[5] = self.players.loc[num, 'Player Name'] + self.players.loc[num, 'Team']
 					total_proj += self.players.loc[num, 'Proj FP']
 					if self.actuals:
 						total_actual += self.players.loc[num, 'Actual FP']

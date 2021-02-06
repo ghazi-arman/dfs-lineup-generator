@@ -23,7 +23,7 @@ while True:
 	if sys.argv[1].lower() == 'nhl':
 		generator = Nhl(
 			sport = "NHL",
-			num_lineups = 10,
+			num_lineups = 150,
 			overlap = int(sys.argv[4]),
 			player_limit = int(sys.argv[5]),
 			teams_limit = int(sys.argv[6]),

@@ -18,7 +18,7 @@ for filename in os.listdir(directory):
       data = csv.reader(f)
       scores=[]
       for row in data:
-        if row[0] == 'PG':
+        if row[0] == 'PG' or row[0] == 'C' or row[0] == 'QB':
           continue
         scores.append((float(row[10]), filename))
     scores.sort(reverse = True)

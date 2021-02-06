@@ -44,7 +44,9 @@ with open('./nhl/inputs/{}/{}/goalies.csv'.format(sys.argv[1], sys.argv[2]), 'w+
         if(count == 0):
           count += 1
           continue
-
+        
+        if(row[20] == 'NaN'):
+          row[20] = 0
         opponent = row[6].replace('@', '')
         writer.writerow([row[0], row[4], row[5], opponent, row[20], row[22]])
         count += 1
