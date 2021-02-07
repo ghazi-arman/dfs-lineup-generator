@@ -48,17 +48,29 @@ class Nhl(LineupGenerator):
 		for i in range(self.num_goalies):
 			prob += (6*goalies_lineup[i] + pulp.lpSum(self.goalies_opponents[k][i]*players_lineup[k] for k in range(self.num_players)) <= 6)
 
-		# must have at least one complete line in each lineup
-		line_stack_3 = [pulp.LpVariable("ls3{}".format(i+1), cat="Binary") for i in range(self.num_lines)]
-		for i in range(self.num_lines):
-			prob += (3*line_stack_3[i] <= pulp.lpSum(self.team_lines[k][i]*players_lineup[k] for k in range(self.num_players)))
-		prob += (pulp.lpSum(line_stack_3[i] for i in range(self.num_lines)) >= 1)
-		
-		# must have at least 2 lines with at least 2 players
-		line_stack_2 = [pulp.LpVariable("ls2{}".format(i+1), cat="Binary") for i in range(self.num_lines)]
-		for i in range(self.num_lines):
-			prob += (2*line_stack_2[i] <= pulp.lpSum(self.team_lines[k][i]*players_lineup[k] for k in range(self.num_players)))
-		prob += (pulp.lpSum(line_stack_2[i] for i in range(self.num_lines)) >= 2)
+		if self.stack == "3-2-2":
+			# must have at least one complete line in each lineup
+			line_stack_3 = [pulp.LpVariable("ls3{}".format(i+1), cat="Binary") for i in range(self.num_lines)]
+			for i in range(self.num_lines):
+				prob += (3*line_stack_3[i] <= pulp.lpSum(self.team_lines[k][i]*players_lineup[k] for k in range(self.num_players)))
+			prob += (pulp.lpSum(line_stack_3[i] for i in range(self.num_lines)) >= 1)
+			# must have at least 2 lines with at least 2 players
+			line_stack_2 = [pulp.LpVariable("ls2{}".format(i+1), cat="Binary") for i in range(self.num_lines)]
+			for i in range(self.num_lines):
+				prob += (2*line_stack_2[i] <= pulp.lpSum(self.team_lines[k][i]*players_lineup[k] for k in range(self.num_players)))
+			prob += (pulp.lpSum(line_stack_2[i] for i in range(self.num_lines)) >= 2)
+		elif self.stack == "3-3":
+			# must have at least 2 complete lines in each lineup
+			line_stack_3 = [pulp.LpVariable("ls3{}".format(i+1), cat="Binary") for i in range(self.num_lines)]
+			for i in range(self.num_lines):
+				prob += (3*line_stack_3[i] <= pulp.lpSum(self.team_lines[k][i]*players_lineup[k] for k in range(self.num_players)))
+			prob += (pulp.lpSum(line_stack_3[i] for i in range(self.num_lines)) >= 2)
+		elif self.stack == "2-2-2":
+			# must have at least 3 lines with at least 2 players
+			line_stack_2 = [pulp.LpVariable("ls2{}".format(i+1), cat="Binary") for i in range(self.num_lines)]
+			for i in range(self.num_lines):
+				prob += (2*line_stack_2[i] <= pulp.lpSum(self.team_lines[k][i]*players_lineup[k] for k in range(self.num_players)))
+			prob += (pulp.lpSum(line_stack_2[i] for i in range(self.num_lines)) >= 2)
 
 		# each new lineup can't have more than the overlap variable number of combinations of players in any previous lineups
 		for i in range(len(lineups)):
