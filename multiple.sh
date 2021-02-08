@@ -1,12 +1,12 @@
 #!/bin/sh
 overlaps=(4 5 6 7)
 player_limits=(25 50 150)
-team_limits=(2 3 4)
+team_limits=(2 3)
 if [ $1 = "NFL" ] || [ $1 = "nfl" ]; then
   stacks=()
 fi
 if [ $1 = "NHL" ] || [ $1 = "nhl" ]; then
-  stacks=("3-2-2" "3-3" "2-2-2")
+  stacks=("3-2" "3-3" "2-2-2")
 fi
 if [ $1 = "NBA" ] || [ $1 = "nba" ]; then
   stacks=("PG-SG" "PG-(SG-SF-PF)" "PG-(SG-SF-PF)-(SG-SF-PF)" "PG-SG+PG-SG" "PG-(SG-SF-PF)+PG-(SG-SF-PF)" "PG-(SG-SF-PF)-(SG-SF-PF)+PG-(SG-SF-PF)-(SG-SF-PF)")
