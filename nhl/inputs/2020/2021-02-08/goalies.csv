@@ -1,13 +1,13 @@
 Player Name,Salary,Team,Opp,Proj FP,Actual FP
-Alex Nedeljkovic,8300,CAR,CLS,0.0,0.0
-Curtis McElhinney,8300,TB,NSH,21.4,0.0
-Frederik Andersen,8100,TOR,VAN,20.5,0.0
-Semyon Varlamov,7700,NYI,NYR,18.1,0.0
-Jordan Binnington,7600,STL,ARI,19.3,0.0
-Braden Holtby,7500,VAN,TOR,13.4,0.0
-Igor Shesterkin,7300,NYR,NYI,20.5,0.0
-Darcy Kuemper,7300,ARI,STL,16.8,0.0
-Joonas Korpisalo,7100,CLS,CAR,16.3,0.0
-Pekka Rinne,7100,NSH,TB,15.5,0.0
-Matthew Murray,6700,OTT,EDM,14.8,0.0
-Mike Smith,6500,EDM,OTT,19.6,0.0
+Alex Nedeljkovic,8300,CAR,CLS,0.0,3.2
+Curtis McElhinney,8300,TB,NSH,21.2,26.4
+Frederik Andersen,8100,TOR,VAN,20.8,32.8
+Semyon Varlamov,7700,NYI,NYR,17.9,44.0
+Jordan Binnington,7600,STL,ARI,19.3,6.4
+Braden Holtby,7500,VAN,TOR,13.2,0.8
+Igor Shesterkin,7300,NYR,NYI,20.7,14.4
+Darcy Kuemper,7300,ARI,STL,16.8,32.0
+Joonas Korpisalo,7100,CLS,CAR,15.9,21.6
+Pekka Rinne,7100,NSH,TB,15.7,16.8
+Matthew Murray,6700,OTT,EDM,14.6,17.6
+Mike Smith,6500,EDM,OTT,19.8,29.6

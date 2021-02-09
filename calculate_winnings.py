@@ -26,7 +26,7 @@ for overlap in overlaps:
         min_balance = 0
         for date in dates:
           filename = '{}/outputs/{}/output_{}_overlap_{}_playerlimit_{}_numteams_{}_stack_{}_proj.csv'.format(sys.argv[1], sys.argv[2], date, overlap, player_limit, team_limit, stack)
-          if os.path.isfile(filename) and (len(sys.argv) < 4 or scores_map[date][7] in range(int(sys.argv[3]) - 1, int(sys.argv[4]) + 1)):
+          if os.path.isfile(filename) and (len(sys.argv) < 4 or scores_map[date][7] in range(int(sys.argv[3]), int(sys.argv[4]) + 1)):
             balance -= 666
             top_scores = scores_map[date]
             with open(filename,'rt') as f:
