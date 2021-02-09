@@ -13,7 +13,7 @@ with open('./nhl/inputs/{}/{}/fanduel.csv'.format(sys.argv[1], sys.argv[2]),'rt'
     players[row[14]] = row[10]    
     count += 1
 
-with open('./nhl/outputs/{}/fd_{}.csv'.format(sys.argv[1], sys.argv[3]), 'w+') as file:
+with open('./nhl/outputs/{}/fanduel/fd_{}'.format(sys.argv[1], sys.argv[3]), 'w+') as file:
   writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
   writer.writerow(['C', 'C', 'W', 'W', 'D', 'D', 'UTIL', 'UTIL', 'G'])
   with open('./nhl/outputs/{}/{}'.format(sys.argv[1], sys.argv[3]),'rt')as f:
@@ -22,5 +22,5 @@ with open('./nhl/outputs/{}/fd_{}.csv'.format(sys.argv[1], sys.argv[3]), 'w+') a
       if(row[0] == 'C'):
         continue
       
-      writer.writerow([players[row[0][:-3]], players[row[1][:-3]], players[row[2][:-3]], players[row[3][:-3]], players[row[4][:-3]], players[row[5][:-3]], players[row[6][:-3]], players[row[7][:-3]], players[row[8][:-3]]])
+      writer.writerow([players[row[0][:row[0].index(',')]], players[row[1][:row[1].index(',')]], players[row[2][:row[2].index(',')]], players[row[3][:row[3].index(',')]], players[row[4][:row[4].index(',')]], players[row[5][:row[5].index(',')]], players[row[6][:row[6].index(',')]], players[row[7][:row[7].index(',')]], players[row[8][:row[8].index(',')]]])
       count += 1
