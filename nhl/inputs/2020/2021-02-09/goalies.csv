@@ -1,15 +1,15 @@
 Player Name,Salary,Team,Opp,Proj FP,Actual FP
-Marc-Andre Fleury,8800,VGK,ANH,20.7,0.0
-Andrei Vasilevskii,8700,TB,NSH,21.3,0.0
-Jake Oettinger,8000,DAL,CHI,19.4,0.0
-Connor Hellebuyck,7900,WPG,CGY,17.8,0.0
-Jacob Markstrom,7600,CGY,WPG,18.0,0.0
-Sergei Bobrovsky,7500,FLA,DET,22.4,0.0
-Mikko Koskinen,7400,EDM,OTT,19.8,0.0
-Kevin Lankinen,7200,CHI,DAL,18.4,0.0
-Juuse Saros,7100,NSH,TB,15.6,0.0
-Martin Jones,6800,SJ,LA,16.3,0.0
-Thomas Greiss,6700,DET,FLA,16.2,0.0
+Marc-Andre Fleury,8800,VGK,ANH,20.7,11.2
+Andrei Vasilevskii,8700,TB,NSH,21.3,33.6
+Jake Oettinger,8000,DAL,CHI,19.4,13.6
+Connor Hellebuyck,7900,WPG,CGY,17.8,8.8
+Jacob Markstrom,7600,CGY,WPG,18.0,24.0
+Sergei Bobrovsky,7500,FLA,DET,22.6,32.8
+Mikko Koskinen,7400,EDM,OTT,19.8,36.0
+Kevin Lankinen,7200,CHI,DAL,18.4,35.2
+Juuse Saros,7100,NSH,TB,15.6,-4.8
+Martin Jones,6800,SJ,LA,16.3,19.2
+Thomas Greiss,6700,DET,FLA,16.0,8.0
 Jon Quick,6700,LA,SJ,15.7,0.0
 John Gibson,6700,ANH,VGK,15.6,0.0
-Matthew Murray,6600,OTT,EDM,14.8,0.0
+Marcus Hogberg,6600,OTT,EDM,15.1,-4.0
