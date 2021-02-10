@@ -1,7 +1,0 @@
-Player Name,Likes,Inj,Pos,Salary,Team,Opp,Rest,Vegas Odds Win,Vegas Odds GA,L5 TOI,L40 TOI,S TOI,L40 SVPCT,S SVPCT,L5 FP,L40 FP,S FP,Floor FP,Ceil FP,Proj FP,Proj Val,Actual FP,Actual Val
-Curtis McElhinney,,,G,8100,TB,@CAR,0,52%,2.94,0.0,0.0,0.0,0.000,0.000,0.0,0.0,0.0,0.0,0.0,18.2,2.2,0.0,0.0
-Anton Khudobin,,,G,7900,DAL,@DET,0,59%,2.51,0.0,0.0,0.0,0.000,0.000,0.0,0.0,0.0,0.0,0.0,20.0,2.5,7.2,0.9
-Thomas Greiss,1,,G,7600,NYI,WPG,1,57%,2.78,0.0,0.0,0.0,0.000,0.000,0.0,0.0,0.0,0.0,0.0,19.8,2.6,0.0,0.0
-Petr Mrazek,,,G,7600,CAR,TB,0,48%,3.06,65.0,65.0,65.0,0.917,0.917,26.4,26.4,26.4,26.4,26.4,14.9,2.0,8.0,1.1
-Laurent Brossoit,,,G,7100,WPG,@NYI,1,42%,3.22,65.0,65.0,65.0,0.897,0.897,NaN,NaN,NaN,NaN,NaN,16.2,2.3,7.2,1.0
-Jonathan Bernier,1,,G,7000,DET,DAL,0,41%,2.99,0.0,0.0,0.0,0.000,0.000,0.0,0.0,0.0,0.0,0.0,16.9,2.4,15.2,2.2

@@ -43,16 +43,19 @@ for overlap in overlaps:
                   continue
                 if(float(row[10]) > top_scores[0] and has_10000 == False):
                   balance += 10000
+                  print(date + ' ({} 1st): {}, {}, {}, {}'.format(row[10], overlap, player_limit, team_limit, stack))
                   for i in range(1,6):
                     top_scores[i] = top_scores[i - 1]
                   has_10000 = True
                 elif(float(row[10]) > top_scores[1] and has_3000 == False):
                   balance += 3000
+                  print(date + ' ({} 2nd): {}, {}, {}, {}'.format(row[10], overlap, player_limit, team_limit, stack))
                   for i in range(2,6):
                     top_scores[i] = top_scores[i - 1]
                   has_3000 = True
                 elif(float(row[10]) > top_scores[2] and has_1500 == False):
                   balance += 1500
+                  print(date + ' ({} 3rd): {}, {}, {}, {}'.format(row[10], overlap, player_limit, team_limit, stack))
                   for i in range(3,6):
                     top_scores[i] = top_scores[i - 1]
                   has_1500 = True
