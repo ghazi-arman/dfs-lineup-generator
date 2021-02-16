@@ -77,10 +77,14 @@ class Nhl(LineupGenerator):
 			prob += ((pulp.lpSum(lineups[i][k]*players_lineup[k] for k in range(self.num_players)) +
 						pulp.lpSum(lineups[i][self.num_players+k]*goalies_lineup[k] for k in range(self.num_goalies))) <= self.overlap)
 
-		# can't use the same player or defense more times than set by player_limit variable
+		# can't use the same player more times than set by player_limit variable
 		for i in range(self.num_players):
 			prob += ((pulp.lpSum(lineups[k][i]*players_lineup[i] for k in range(len(lineups)))) <= self.player_limit)
 		
+		for i in range(self.num_goalies):
+			prob += ((pulp.lpSum(lineups[k][self.num_players+i]*goalies_lineup[i] for k in range(len(lineups)))) <= min(self.player_limit, 50))
+
+
 		#add the objective
 		prob += pulp.lpSum((pulp.lpSum(self.players.loc[i, 'Proj FP']*players_lineup[i] for i in range(self.num_players)) +
 							pulp.lpSum(self.goalies.loc[i, 'Proj FP']*goalies_lineup[i] for i in range(self.num_goalies))))
